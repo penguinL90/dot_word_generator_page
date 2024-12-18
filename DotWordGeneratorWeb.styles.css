@@ -1,0 +1,38 @@
+/* /Layout/MainLayout.razor.rz.scp.css */
+.header[b-sx18ob8rmy] {
+    width: 100%;
+    overflow: hidden;
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #45616A;
+}
+
+.header h1[b-sx18ob8rmy] {
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+    font-weight: 800;
+}
+
+.header h5[b-sx18ob8rmy] {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.header h1:focus[b-sx18ob8rmy] {
+    outline: none;
+}
+
+.footer[b-sx18ob8rmy] {
+    width: 100%;
+    overflow: hidden;
+    height: 20vh;
+    background-color: #45616A;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+}
