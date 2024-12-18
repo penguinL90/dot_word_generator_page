@@ -24,38 +24,35 @@ window.changeFontSize = (size) => {
     ele.style.fontSize = `${size}px`;
 };
 
-window.convertToImage = (text) => {
+window.convertToImage = async () => {
     const imageplace = document.getElementById("imageplace");
-    const oldimg = imageplace.querySelector('img');
+    const oldcanva = imageplace.querySelector('canvas');
     const p = document.getElementById('result');
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-
-    const lines = text.split('\n');
-    const fontSize = parseFloat(p.style.fontSize.split("px")[0]);
-    const lineHeight = fontSize * 1.4;
-    const txt = "create by DotWordGeneratorWeb|made by PenguinL90";
-
-    canvas.width = (p.clientWidth + 100);
-    canvas.height = (p.clientHeight + 100);
-
-    ctx.fillStyle = '#FFEBCD';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#000000';
-    ctx.font = `normal 900 ${fontSize}px Arial`;
-    ctx.fontKerning = 'none';
-    lines.forEach((n, i) => {
-        ctx.fillText(n, 50, (i + 1) * lineHeight + 50);
-    });
-    ctx.font = `normal 900 15px monospace`;
-    ctx.textAlign = 'end';
-    ctx.fillText(txt, canvas.width - 50, canvas.height - 10, canvas.width - 20);
-    const url = canvas.toDataURL("image/png");
-    const img = document.createElement('img');
-    img.src = url;
-    if (oldimg !== null) {
-        imageplace.removeChild(oldimg);
+    const serializer = new XMLSerializer();
+    const w = Math.max(p.clientWidth + 100, 550);
+    const svg =
+    `
+    <svg xmlns="http://www.w3.org/2000/svg" width="(${w}px" height="${p.clientHeight + 100}px">
+        <rect width="100%" height="100%" fill="#FFEBCD"/>
+        <foreignObject width="${p.clientWidth}px" height="${p.clientHeight}px" x="50px" y="50px" stroke-width="1px" stroke="black">
+            ${serializer.serializeToString(p)}
+        </foreignObject>
+        <text x="${w - 50}px" y="${p.clientHeight + 90}px" font-family="monospace" font-size="15px" text-anchor="end">
+            create by dot_word_generator_page | made by PenguinL90
+        </text>
+    </svg>
+    `;
+    const imgblob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+    const image = document.createElement("img"); 
+    image.src = URL.createObjectURL(imgblob);
+    await image.decode();
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = p.clientHeight + 100;
+    canvas.getContext("2d").drawImage(image, 0, 0);
+    if (oldcanva !== null) {
+        imageplace.removeChild(oldcanva);
     }
-    img.classList.add("acell");
-    imageplace.appendChild(img);
+    canvas.classList.add("acell");
+    imageplace.appendChild(canvas);
 } 
