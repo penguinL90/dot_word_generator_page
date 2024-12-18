@@ -43,8 +43,9 @@ window.convertToImage = (text) => {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#000000';
     ctx.font = `normal 900 ${fontSize}px Arial`;
+    ctx.fontKerning = 'none';
     lines.forEach((n, i) => {
-        ctx.fillText(n, 50, i * lineHeight + 50);
+        ctx.fillText(n, 50, (i + 1) * lineHeight + 50);
     });
     ctx.font = `normal 900 15px monospace`;
     ctx.textAlign = 'end';
